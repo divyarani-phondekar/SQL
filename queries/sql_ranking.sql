@@ -1,3 +1,45 @@
+-- 3rd Highest Salary of employee
+
+CREATE TABLE cemployee (
+    emp_name TEXT NOT NULL,
+    salary INT NOT NULL
+);
+
+-- insert data into table 
+INSERT INTO cemployee VALUES ('Tom',1500000);
+INSERT INTO cemployee VALUES ('Dick',3900000);
+INSERT INTO cemployee VALUES ('Hary',7700000);
+INSERT INTO cemployee VALUES ('Mike',15000000);
+INSERT INTO cemployee VALUES ('Harvey',33300000);
+INSERT INTO cemployee VALUES ('Brush',2500000);
+
+SELECT * FROM cemployee;
+
+emp_name|salary  |
+--------+--------+
+Tom     | 1500000|
+Dick    | 3900000|
+Hary    | 7700000|
+Mike    |15000000|
+Harvey  |33300000|
+Brush   | 2500000|
+
+-- Query
+
+SELECT * FROM 
+(SELECT *,
+DENSE_RANK() OVER (ORDER BY salary desc) AS ranking
+FROM cemployee c )
+WHERE ranking = 3
+
+-- Output
+emp_name|salary |ranking|
+--------+-------+-------+
+Hary    |7700000|      3|
+
+ ------------------------------------------------------------------------------------
+
+
 create table order_product_revenue
 as
 select o.order_date, oi.order_item_product_id, round(sum(oi.order_item_subtotal):: numeric, 2) as order_revenue
